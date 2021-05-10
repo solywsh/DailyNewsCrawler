@@ -85,31 +85,45 @@ def get_zhihu_hot_dict(file_path,html):
         return 0
 
 #处理时间格式，清除带0的数字
-def get_date():
+def get_sys_date():
     SystemDate_month = time.strftime("%m",time.localtime())
     SystemDate_day = time.strftime("%d",time.localtime())
     if SystemDate_month[0] == '0':
         SystemDate_month = SystemDate_month[1]
     if SystemDate_day[0] == '0':
         SystemDate_day = SystemDate_day[1]
-
     return SystemDate_month+SystemDate_day
+
+#处理标题时间格式
+def format_title_date(title):
+    date = title.split('，',1)[0]#获取标题日期，如"5月10日"
+    date_num = len(date)
+    if date_num == 4:
+        return date[0] + date[2]
+    if date_num == 6:
+        return date[0:2] + date[3:6]
+    if date_num == 5:
+        if title[1] == '月':
+            return date[0] + date[2:4]
+        else:
+            return date[0:2] + date[3]
 
 #得到'每天60s读懂世界'今天文章的url
 def get_zhihu_everyday60s_url(html):
     if html == 404:
         return 404 #状态码不是200的情况
     else:
-        SystemDate_today = get_date()
+        SystemDate_today = get_sys_date()
         soup = BeautifulSoup(html,"html.parser")
         if len(soup.find_all('button',class_ = 'Button CountingDownButton SignFlow-smsInputButton Button--plain',text='获取短信验证码')) == 1:
             return -1 #在未登录的时候会显示登陆界面，通过查找界面是否有短信登陆按钮来判断是否登陆
         for ListShortcut in soup.find_all('div',class_ = 'List ProfileActivities'):
             title = ListShortcut.contents[1].contents[0].contents[1].contents[2]['content']
-            date = title[0]+title[2] #获取日期
-            if SystemDate_today ==  date:
+            title_date = format_title_date(title)#处理标题时间格式
+            if SystemDate_today ==  title_date:
                 url = 'https:'+ListShortcut.contents[1].contents[0].contents[1].contents[3]['content']
                 return url
+
 
 #抓取'每天60s读懂世界'的字典
 def  get_zhihu_everyday60s_content(file_path,html):

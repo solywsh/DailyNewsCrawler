@@ -25,6 +25,7 @@ def zhihu(zhihu_hot,zhihu_everyday60s):
         #访问'每天60s读懂世界'个人界面，找到今天的文章链接
         zhihu_everyday60s_list_html = get_zhihu_html(url_zhihu_everyday60s)
         zhihu_everyday60s_today_url = get_zhihu_everyday60s_url(zhihu_everyday60s_list_html)
+        
         #得到今天文章的url之后开始网页
         if zhihu_everyday60s_today_url != 404:
             zhihu_everyday60s_content_html = get_zhihu_writings_html(zhihu_everyday60s_today_url)
