@@ -6,12 +6,12 @@ import time
 from bs4 import BeautifulSoup
 
 #解析知乎网页
-def get_zhihu_html(url):
+def get_zhihu_html(url,cookie):
     headers={
 	    'Host':'www.zhihu.com',
 	    'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6',
 	    'Connection':'keep-alive',
-        'Cookie':'_zap=6fc5b396-f370-431b-a3c5-c3608fb51382; d_c0="AKBaZPGswBKPTgAQZvlfylIAGSPADCD5cYQ=|1614947883"; q_c1=076c9da0cdff4f5e8d22a2e1812e47a4|1615027663000|1615027663000; tshl=; _xsrf=X7gO6aKjQvlRaxFr6ubUFbSg3Fl4py91; tst=h; Hm_lvt_98beee57fd2ef70ccdd5ca52b9740c49=1620214630,1620300809,1620302760,1620392803; SESSIONID=0hfzHzCmCRgDmAM9lW8BKWctDyFcnRrylQUExRYYn4t; JOID=VFsXBUr__DXvC2V8ZP_eKvFUpb9yypVXkkQaPg27q1OvYSM0XJ3Co48JYXln5zG7y4r9hYs_7dWjhnfiFxF3_L0=; osd=U1wRAUP4-zPrAmJ7YvvXLfZSobZ1zZNTm0MdOAmyrFSpZSozW5vGqogOZ31u4Da9z4P6go075NKkgHPrEBZx-LQ=; __snaker__id=s1GcabulQVqWg4M2; _9755xjdesxxd_=32; YD00517437729195%3AWM_NI=L%2Fg%2FO%2BaQmBm1hvDKp7lA74%2FRHISZ4Rui%2FKr5PLdPnhapr%2BnooYw9SOCvDxlt%2BxA2VYFstMbcI5J8%2BbC8nuJogtTahONfC%2B5LemmSE3JxugeIXkwstlyz3Ni7TL9gZ6qtdGs%3D; YD00517437729195%3AWM_NIKE=9ca17ae2e6ffcda170e2e6eea7f1458c9d9d8cf45ba1b08fa7c54e838b8f85b664f29fbea8d47dfcb99bb4f52af0fea7c3b92a90f1a9d0ce21a38fa3a3f03bacaa8cacf33db09ff9d5ae5a8c979dbbb75ab7b7e1acf13f9494acb1ed64a3b0becced65ad87b9dad24581aa8c99ef80e9a88fd3d55386adbcaee1698beb86d9aa6a81e8a296c965a5ac9c82eb458eba8dccb848a7b3a3b4c8398aa8bb88e8439cb5b994f768bba6fdafec3d9894f788d93eb3acaca8f237e2a3; YD00517437729195%3AWM_TID=R%2B%2Bd7dkz5NNAFVABRAM7lnArHEg8hATv; gdxidpyhxdE=XMNc1ACAXA5AJ7vq5KLVrSRXczjdjpP%5C4c244%2Fs29BDB2WBxBvw6BMcE8Ut8WjkolOqEXmKng5ItO79y6Hx2DhpUWELJ%2BUNU0dCXuox9JI%2BC00XMTDiC7XkPQS%2F8XPHuyO3C4nzkZCS0rvBydPO%5CmTBcAdm4Xx7iSM9Z6ebZJRJ%2BGlhE%3A1620397842547; captcha_session_v2="2|1:0|10:1620397577|18:captcha_session_v2|88:NUhqTVlIMktqckdUYjl1WXJVeWxITzY2blJxU0R2WldIS1NLWVI3ODFNeEd6WDRVdTE2STNtdE0vdEJ6UVJydQ==|e5715ab046db81a60a4a9b7ddfdaac5d5f102eea1c2ba4ad6cf65558bed17335"; captcha_ticket_v2="2|1:0|10:1620397583|17:captcha_ticket_v2|704:eyJ2YWxpZGF0ZSI6IkNOMzFfRVl5SHhfZ0MycXp3V1pmaHR6bE5Vc3pjeW5zNmpyeUouTnFwc3RwSXgwblc1aVpCcUgtWXoxbU4tYmtYUUg3dS0wTTB2ZU0uYXZDLnFpd0VCRFdPQ2dNWE5FUi54cWZYY1lvdU9wVEZIdzEuXzlOYy10cE1hTGZGdmlmY2Vtc3RHZUxoS3IuNTdMN2VGVU1fMGxydVI1QlA1NGxsNnh4WE9NR09tUmR4RWJDRHlDb29JRG9sR1RWNVNGbk9IcmR3RkZFN3VmejBJckt4OGZ6NjdvTDcuZ0wyamFJS2xpaE5seWlwZVNiLlkwQ0pUcWJKSW1OWTZ1aHpQYzB4V0NidjRCS0Nxa3FBYkViN2JEQUlySHRaN1BDdDRiYWdKdWIyRXVaVGt5OWV2VFpQWS1HVUlSMENNdDhMbVouUWg5NGxWLmlqVFNsZVRubEkya3dkLVFSNGo0bnBNMnFwTWw0WG1VaUZTQkk1WUZTYVZpS01aNDJ0OU8xcEQwaFZxOXNXMlpBLXRPWm1MemM3S3Aya3pkV09nNDZsLWlVUG9DWENSTVRoTWNKYnU0TmE0cld6ZkgyTk5mRC52TjVvSjlDWk4temZNSl9PTUdaREZ5YnhzRDlxRGI5Q0pUZDZ5NUhqVXVKT3Y5TGptVERMdi52Ul9JZHV2QU40ZzJyMyJ9|d1c578ba20eede109ede442be69d2d907e4589d84f3e3849ec48ae5386bac04b"; z_c0="2|1:0|10:1620397597|4:z_c0|92:Mi4xcXBpUUJRQUFBQUFBb0ZwazhhekFFaVlBQUFCZ0FsVk5IWnlDWVFBU1RGUDlHUm9GR3ZtNlVJWDMxY1dlXzI5Ujl3|c656568941a83357a02bbaaa2bb9b6a74b89cbae60aea6112d8e1ba2f317f131"; unlock_ticket="ACDC200iJQwmAAAAYAJVTSVVlWBtHaUQ2i8K0LD8JfFYpVbfiS12rw=="; Hm_lpvt_98beee57fd2ef70ccdd5ca52b9740c49=1620397597; KLBRSID=cdfcc1d45d024a211bb7144f66bda2cf|1620397599|1620392804',#添加cookie
+        'Cookie':cookie,
 	    'Cache-Control':'no-cache',
 	    'Upgrade-Insecure-Requests':'1',
 	    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -75,6 +75,9 @@ def get_zhihu_hot_dict(file_path,html):
                     'url' : HotItem['href'],
                     'detailed ' : detailed
                     }
+                    pprint.pprint(zhihu_dict)
+                    print('\n')
+                    time.sleep(1)
                     break
                 i = i + 1
                 zhihu_lists.append(zhihu_dict)
@@ -130,13 +133,62 @@ def  get_zhihu_everyday60s_content(file_path,html):
     if html == 404:
         return 404 #状态码不是200的情况
     else:
+        zhihu_lists = []
         soup = BeautifulSoup(html,"html.parser")
         if len(soup.find_all('button',class_ = 'Button CountingDownButton SignFlow-smsInputButton Button--plain',text='获取短信验证码')) == 1:
             return -1 #在未登录的时候会显示登陆界面，通过查找界面是否有短信登陆按钮来判断是否登陆
         for writings in soup.find_all('div',class_ = 'RichText ztext Post-RichText'):
             for writing in writings.contents:
-                print(str(writing))
-        # with open(file_path,'w',encoding='utf-8') as file_object:
-        #     file_object.write(json.dumps(zhihu_lists,indent = 4, ensure_ascii=False))
-        # file_object.close()
+                if len(writing)== 1:
+                    print(writing.string+'\n')
+                    zhihu_lists.append(writing.string)
+                    time.sleep(1)
+        with open(file_path,'w',encoding='utf-8') as file_object:
+            file_object.write(json.dumps(zhihu_lists,indent = 4, ensure_ascii=False))
+        file_object.close()
         return 0
+
+
+############################
+####知乎抓取总的控制函数####
+###########################
+#5个参数分别是：
+#1.知乎账号的cookie
+#2.是否抓取知乎热搜（True/False）,默认True
+#3.是否抓取'每天60s读懂世界'（True/False）,默认True
+#4.知乎热搜抓取结果存取路径，默认路径：'./res/zhihu_hot.json'
+#5.'每天60s读懂世界'抓取结果存取路径，默认路径：./res/zhihu_everyday60s.json
+def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,zhihu_file_path_for_hot = r'./res/zhihu_hot.json',zhihu_file_path_for_everyday60s= r'./res/zhihu_everyday60s.json'):
+    #知乎热搜
+    if zhihu_hot == True:
+        print("开始抓取知乎热搜...")
+        url_zhihu_hot = "https://www.zhihu.com/hot"
+        zhihu_hot_html = get_zhihu_html(url_zhihu_hot,cookie)
+        zhihu_status_code = get_zhihu_hot_dict(zhihu_file_path_for_hot,zhihu_hot_html)
+        
+        if zhihu_status_code == 0:
+            print("知乎热搜抓取成功...\n")
+        elif zhihu_status_code == 404:
+            print("知乎热搜抓取失败,网页链接失败...请检查网络\n")
+        elif zhihu_status_code == -1:
+            print("知乎热搜抓取失败,cookie失效,请重新更换cookie...\n")
+
+    #每天60s读懂世界
+    if zhihu_everyday60s == True:
+        print("开始抓取'每天60s读懂世界'...")
+        #'每天60s读懂世界'的个人界面
+        url_zhihu_everyday60s = "https://www.zhihu.com/people/mt36501"
+        #访问'每天60s读懂世界'个人界面，找到今天的文章链接
+        zhihu_everyday60s_list_html = get_zhihu_writings_html(url_zhihu_everyday60s)
+        zhihu_everyday60s_today_url = get_zhihu_everyday60s_url(zhihu_everyday60s_list_html)
+        
+        #得到今天文章的url之后开始网页
+        zhihu_everyday60s_content_html = get_zhihu_writings_html(zhihu_everyday60s_today_url)
+        zhihu_status_code = get_zhihu_everyday60s_content(zhihu_file_path_for_everyday60s,zhihu_everyday60s_content_html)
+        
+        if zhihu_status_code == 0:
+            print("'每天60s读懂世界'抓取成功...\n")
+        elif zhihu_status_code == 404:
+            print("'每天60s读懂世界'抓取失败,网页链接失败...请检查网络\n")
+        elif zhihu_status_code == -1:
+            print("'每天60s读懂世界'抓取失败,cookie失效,请重新更换cookie...\n")
