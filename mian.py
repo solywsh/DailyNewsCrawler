@@ -1,6 +1,6 @@
 import json
 from pathlib import Path #判断路径文件是否存在
-from getZhihu.getZhihu import zhihu
+from GetZhihu.GetZhihu import zhihu
 
 #zhihu_file_path_for_hot = r'./res/zhihu_hot.json'
 #zhihu_file_path_for_everyday60s= r'./res/zhihu_everyday60s.json'
