@@ -4,6 +4,7 @@ import json
 import pprint
 import time
 from bs4 import BeautifulSoup
+from requests.api import get
 
 #解析知乎网页
 def get_zhihu_html(url,cookie):
@@ -75,8 +76,8 @@ def get_zhihu_hot_dict(file_path,html):
                     'url' : HotItem['href'],
                     'detailed ' : detailed
                     }
-                    pprint.pprint(zhihu_dict)
-                    print('\n')
+                    #pprint.pprint(zhihu_dict)
+                    #print('\n')
                     time.sleep(1)
                     break
                 i = i + 1
@@ -88,14 +89,21 @@ def get_zhihu_hot_dict(file_path,html):
         return 0
 
 #处理时间格式，清除带0的数字
-def get_sys_date():
-    SystemDate_month = time.strftime("%m",time.localtime())
-    SystemDate_day = time.strftime("%d",time.localtime())
-    if SystemDate_month[0] == '0':
-        SystemDate_month = SystemDate_month[1]
-    if SystemDate_day[0] == '0':
-        SystemDate_day = SystemDate_day[1]
-    return SystemDate_month+SystemDate_day
+#默认type为0，也就是用与比对抓取的标题的，此时个位数字不带0
+#当type不为0时，返回个位数字带0的数字，用于生成标题
+def get_sys_date(type = 0):
+    if type == 0:
+        SystemDate_month = time.strftime("%m",time.localtime())
+        SystemDate_day = time.strftime("%d",time.localtime())
+        if SystemDate_month[0] == '0':
+            SystemDate_month = SystemDate_month[1]
+        if SystemDate_day[0] == '0':
+            SystemDate_day = SystemDate_day[1]
+        return SystemDate_month+SystemDate_day
+    else:
+        SystemDate_month = time.strftime("%m",time.localtime())
+        SystemDate_day = time.strftime("%d",time.localtime())
+        return SystemDate_month+SystemDate_day
 
 #处理标题时间格式
 def format_title_date(title):
@@ -140,7 +148,7 @@ def  get_zhihu_everyday60s_content(file_path,html):
         for writings in soup.find_all('div',class_ = 'RichText ztext Post-RichText'):
             for writing in writings.contents:
                 if len(writing)== 1:
-                    print(writing.string+'\n')
+                    #print(writing.string+'\n')
                     zhihu_lists.append(writing.string)
                     time.sleep(1)
         with open(file_path,'w',encoding='utf-8') as file_object:
@@ -158,7 +166,9 @@ def  get_zhihu_everyday60s_content(file_path,html):
 #3.是否抓取'每天60s读懂世界'（True/False）,默认True
 #4.知乎热搜抓取结果存取路径，默认路径：'./res/zhihu_hot.json'
 #5.'每天60s读懂世界'抓取结果存取路径，默认路径：./res/zhihu_everyday60s.json
-def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,zhihu_file_path_for_hot = r'./res/zhihu_hot.json',zhihu_file_path_for_everyday60s= r'./res/zhihu_everyday60s.json'):
+def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,
+    zhihu_file_path_for_hot = r'./res/'+get_sys_date(1)+r'_zhihu_hot.json',
+    zhihu_file_path_for_everyday60s= r'./res/'+get_sys_date(1)+r'_zhihu_everyday60s.json'):
     #知乎热搜
     if zhihu_hot == True:
         print("开始抓取知乎热搜...")
@@ -170,8 +180,10 @@ def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,zhihu_file_path_for_hot =
             print("知乎热搜抓取成功...\n")
         elif zhihu_status_code == 404:
             print("知乎热搜抓取失败,网页链接失败...请检查网络\n")
+            return zhihu_status_code
         elif zhihu_status_code == -1:
             print("知乎热搜抓取失败,cookie失效,请重新更换cookie...\n")
+            return zhihu_status_code
 
     #每天60s读懂世界
     if zhihu_everyday60s == True:
@@ -190,5 +202,9 @@ def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,zhihu_file_path_for_hot =
             print("'每天60s读懂世界'抓取成功...\n")
         elif zhihu_status_code == 404:
             print("'每天60s读懂世界'抓取失败,网页链接失败...请检查网络\n")
+            return zhihu_status_code
         elif zhihu_status_code == -1:
             print("'每天60s读懂世界'抓取失败,cookie失效,请重新更换cookie...\n")
+            return zhihu_status_code
+
+    return 0
