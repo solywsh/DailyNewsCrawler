@@ -70,11 +70,11 @@ def get_zhihu_hot_dict(file_path,html):
                 #此处for是为了寻找“热度”这个关键字
                 for HI in HotItem_content.find_all('div',class_ = "HotItem-metrics HotItem-metrics--bottom"):
                     zhihu_dict = {
-                    'Rank ' : i,
+                    'Rank' : i,
                     'hot' : HI.contents[1].string,
                     'title' : HotItem['title'],
                     'url' : HotItem['href'],
-                    'detailed ' : detailed
+                    'detailed' : detailed
                     }
                     pprint.pprint(zhihu_dict)
                     print('\n')
@@ -83,6 +83,7 @@ def get_zhihu_hot_dict(file_path,html):
                 i = i + 1
                 zhihu_lists.append(zhihu_dict)
 
+        print("写入知乎热搜文件...\n")
         with open(file_path,'w',encoding='utf-8') as file_object:
             file_object.write(json.dumps(zhihu_lists,indent = 4, ensure_ascii=False))
         file_object.close()
@@ -151,6 +152,8 @@ def  get_zhihu_everyday60s_content(file_path,html):
                     print(writing.string+'\n')
                     zhihu_lists.append(writing.string)
                     time.sleep(1)
+
+        print("写入'每天60s读懂世界'文件...\n")
         with open(file_path,'w',encoding='utf-8') as file_object:
             file_object.write(json.dumps(zhihu_lists,indent = 4, ensure_ascii=False))
         file_object.close()
@@ -164,8 +167,8 @@ def  get_zhihu_everyday60s_content(file_path,html):
 #1.知乎账号的cookie
 #2.是否抓取知乎热搜（True/False）,默认True
 #3.是否抓取'每天60s读懂世界'（True/False）,默认True
-#4.知乎热搜抓取结果存取路径，默认路径：'./res/zhihu_hot.json'
-#5.'每天60s读懂世界'抓取结果存取路径，默认路径：./res/zhihu_everyday60s.json
+#4.知乎热搜抓取结果存取路径，默认路径：'./res/日期_zhihu_hot.json'
+#5.'每天60s读懂世界'抓取结果存取路径，默认路径：./res/日期_zhihu_everyday60s.json
 def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,
     zhihu_file_path_for_hot = r'./res/'+get_sys_date(1)+r'_zhihu_hot.json',
     zhihu_file_path_for_everyday60s= r'./res/'+get_sys_date(1)+r'_zhihu_everyday60s.json'):
