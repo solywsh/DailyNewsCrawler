@@ -45,7 +45,13 @@ def read_file(path):
     else:
         print('文件不存在...')
         return -1
-        
+
+#写入文件        
+def write_html(html,path = r'./temporary/'+get_sys_date(1)+r'.html'):
+    with open(path,'w',encoding='utf-8') as file_object:
+            file_object.write(json.dumps(html,indent = 4, ensure_ascii=False))
+    file_object.close()
+
 #生成html文件
 def create_html(zhihu_hot=True,zhihu_everyday60s=True,
     zhihu_hot_obj = '',zhihu_everyday60s_obj = ''):
@@ -53,14 +59,14 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,
     content_hot = '<h1>知乎热榜</h1>'
     content_everyday60s = '<h1>每天60s读懂世界</h1>'
 
-    if zhihu_hot == True:
+    if zhihu_hot == True :
         print("生成知乎热门文本...\n")
         for obj in zhihu_hot_obj:
             content_hot = content_hot + "<p><a href={}>({}){}.{}</a><p>{}</p></p>".format(obj["url"],
             obj["hot"],obj["Rank "],obj["title"],obj["detailed "])
         #print(content_hot)
 
-    if zhihu_everyday60s == True:
+    if zhihu_everyday60s == True :
         print("生成'每天60s读懂世界'文本...\n")
         for obj  in zhihu_everyday60s_obj:
             content_everyday60s = content_everyday60s + "<p>{}</p>".format(obj)
@@ -69,10 +75,13 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,
     
 
     if zhihu_hot==True or zhihu_everyday60s == True:
-        send_html_head = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Title</title></head><body>'
+        send_html_head = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>每日油报</title></head><body>'
         send_html_body = content_everyday60s + content_hot 
         send_html_foot = '</body></html>'
         send_html = send_html_head + send_html_body + send_html_foot
+
+        write_html(send_html)#写入临时文件
+
         return send_html
 
 
@@ -80,9 +89,16 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,
 def send(pushplus_tokens,zhihu_hot=True,zhihu_everyday60s=True,
     zhihu_file_path_for_hot = r'./res/'+get_sys_date(1)+r'_zhihu_hot.json',
     zhihu_file_path_for_everyday60s= r'./res/'+get_sys_date(1)+r'_zhihu_everyday60s.json'):
+
+    #读取json文件的时候为了防止读取成字符形式
+    if zhihu_hot == 'True':
+        zhihu_hot = True
+    if zhihu_everyday60s == 'True':
+        zhihu_everyday60s = True
+
     zhihu_hot_dicts = ""
     zhihu_everyday60s_dicts = ""
-    if zhihu_hot == True:
+    if zhihu_hot == True :
         zhihu_hot_dicts = read_file(zhihu_file_path_for_hot)
         if zhihu_hot_dicts == -1:
             print("知乎热榜文件不存在")

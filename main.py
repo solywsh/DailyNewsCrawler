@@ -30,10 +30,12 @@ if __name__ == "__main__":
     config = read_config()#读取配置文件
     #抓取知乎，config['get_zhihu_hot'],config['get_zhihu_everyday60s']两项默认为True,在为True的时候可以省略
     #zhihu(config['zhihu_cookie'],config['get_zhihu_hot'],config['get_zhihu_everyday60s'])
-    get_status = zhihu(config['zhihu_cookie'])
-    if get_status == 0:
-        send_status = send(config['PushPlus_token'],config['get_zhihu_hot'],config['get_zhihu_everyday60s'])
-
+    # get_status = zhihu(config['zhihu_cookie'])
+    # if get_status == 0:
+    #     send_status = send(config['PushPlus_token'],config['get_zhihu_hot'],config['get_zhihu_everyday60s'])
+    send_status = send(config['PushPlus_token'],config['get_zhihu_hot'],config['get_zhihu_everyday60s'])
+    
+    
     # while True:
     #     time_now = time.strftime("%H:%M:%S", time.localtime()) # 刷新
     #     if time_now == "09:30:10" or time_now == "09:30:11":#不知道是奇数还是偶数

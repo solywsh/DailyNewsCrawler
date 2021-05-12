@@ -170,7 +170,7 @@ def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,
     zhihu_file_path_for_hot = r'./res/'+get_sys_date(1)+r'_zhihu_hot.json',
     zhihu_file_path_for_everyday60s= r'./res/'+get_sys_date(1)+r'_zhihu_everyday60s.json'):
     #知乎热搜
-    if zhihu_hot == True:
+    if zhihu_hot == True or zhihu_hot == 'True':
         print("开始抓取知乎热搜...\n")
         url_zhihu_hot = "https://www.zhihu.com/hot"
         zhihu_hot_html = get_zhihu_html(url_zhihu_hot,cookie)
@@ -186,7 +186,7 @@ def zhihu(cookie,zhihu_hot=True,zhihu_everyday60s=True,
             return zhihu_status_code
 
     #每天60s读懂世界
-    if zhihu_everyday60s == True:
+    if zhihu_everyday60s == True or zhihu_everyday60s == 'True' :
         print("开始抓取'每天60s读懂世界'...\n")
         #'每天60s读懂世界'的个人界面
         url_zhihu_everyday60s = "https://www.zhihu.com/people/mt36501"
