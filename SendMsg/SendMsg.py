@@ -80,6 +80,8 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,
 def send(pushplus_tokens,zhihu_hot=True,zhihu_everyday60s=True,
     zhihu_file_path_for_hot = r'./res/'+get_sys_date(1)+r'_zhihu_hot.json',
     zhihu_file_path_for_everyday60s= r'./res/'+get_sys_date(1)+r'_zhihu_everyday60s.json'):
+    zhihu_hot_dicts = ""
+    zhihu_everyday60s_dicts = ""
     if zhihu_hot == True:
         zhihu_hot_dicts = read_file(zhihu_file_path_for_hot)
         if zhihu_hot_dicts == -1:
