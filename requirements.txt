@@ -1,0 +1,4 @@
+requests
+pathlib
+pprint
+beautifulsoup4

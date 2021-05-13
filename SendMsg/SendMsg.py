@@ -61,13 +61,14 @@ def write_html(html,path = r'./temporary/'+get_sys_date(1)+r'.html'):
 def create_html(zhihu_hot=True,zhihu_everyday60s=True,xiaoheihe_most_popular=True,xiaoheihe_discount = True,
     zhihu_hot_obj = '',zhihu_everyday60s_obj = '',xiaoheihe_most_popular_obj = '',xiaoheihe_discount_obj = ''):
 
-    content_hot = '<h1>知乎热榜</h1>'
-    content_everyday60s = '<h1>每天60s读懂世界</h1>'
-    content_xiaoheihe_most_popular = '<h1>小黑盒流行游戏</h1>'
-    content_xiaoheihe_discount = '<h1>小黑盒打折促销</h1>'
+    content_hot = ''
+    content_everyday60s = ''
+    content_xiaoheihe_most_popular = ''
+    content_xiaoheihe_discount = ''
 
     if zhihu_everyday60s == True :
         print("生成'每天60s读懂世界'文本...\n")
+        content_everyday60s = '<h1>每天60s读懂世界</h1>'
         for obj  in zhihu_everyday60s_obj:
             content_everyday60s = content_everyday60s + "<p>{}</p>".format(obj)
             #content_everyday60s = content_everyday60s+ '<p>' + obj.replace("\"","") + '</p>'
@@ -75,6 +76,7 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,xiaoheihe_most_popular=Tru
 
     if zhihu_hot == True :
         print("生成知乎热门文本...\n")
+        content_hot = '<h1>知乎热榜</h1>'
         count = 1 #计数器，超过一定数之后就停止生成
         for obj in zhihu_hot_obj:
             if count == 11:
@@ -86,18 +88,20 @@ def create_html(zhihu_hot=True,zhihu_everyday60s=True,xiaoheihe_most_popular=Tru
 
     if xiaoheihe_most_popular == True:
         print("生成小黑盒流行游戏文本...\n")
+        content_xiaoheihe_most_popular = '<h1>小黑盒流行游戏</h1>'
         for obj in xiaoheihe_most_popular_obj:
             content_xiaoheihe_most_popular = content_xiaoheihe_most_popular + "<p>{}.{}(评分{}/{})</p>".format(obj["Rank"],
                                                                                             obj["game_name"],obj["game_score"],obj["game_price"])
 
     if xiaoheihe_discount == True:
         print("生成小黑盒游戏打折促销文本...\n")
+        content_xiaoheihe_discount = '<h1>小黑盒打折促销</h1>'
         for obj in xiaoheihe_discount_obj:
             content_xiaoheihe_discount = content_xiaoheihe_discount + "<p>{}.{}(评分{}/{})</p>".format(obj["Rank"],
                                                                                             obj["game_name"],obj["game_score"],obj["game_price"])
     
-    if zhihu_hot==True or zhihu_everyday60s == True:
-        send_html_head = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>每日油报</title></head><body>'
+    if zhihu_hot==True or zhihu_everyday60s == True or xiaoheihe_most_popular == True or xiaoheihe_discount == True:
+        send_html_head = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8"><title>每日油报</title></head><body>'
         send_html_body = content_xiaoheihe_most_popular + content_xiaoheihe_discount + content_everyday60s + content_hot
         send_html_foot = '</body></html>'
         send_html = send_html_head + send_html_body + send_html_foot
@@ -132,6 +136,7 @@ def send(pushplus_tokens,zhihu_hot=True,zhihu_everyday60s=True,xiaoheihe_most_po
         if zhihu_hot_dicts == -1:
             print("知乎热榜文件不存在\n")
             return -1 #知乎热搜的文件不存在
+
     if zhihu_everyday60s == True:
         zhihu_everyday60s_dicts = read_file(zhihu_file_path_for_everyday60s)
         if zhihu_everyday60s_dicts == -1:

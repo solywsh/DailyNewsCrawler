@@ -7,9 +7,9 @@
     },
     {
         "Rank": 2,
-        "game_name": "武装突袭3",
-        "game_score": "8.8",
-        "game_price": "￥29"
+        "game_name": "狂野星球之旅",
+        "game_score": "7.6",
+        "game_price": "￥45"
     },
     {
         "Rank": 3,
@@ -19,14 +19,14 @@
     },
     {
         "Rank": 4,
-        "game_name": "狂野星球之旅",
-        "game_score": "7.6",
-        "game_price": "￥45"
-    },
-    {
-        "Rank": 5,
         "game_name": "永恒之柱2：死亡之火",
         "game_score": "9.1",
         "game_price": "￥41"
+    },
+    {
+        "Rank": 5,
+        "game_name": "物质世界",
+        "game_score": "6.5",
+        "game_price": "￥59"
     }
 ]

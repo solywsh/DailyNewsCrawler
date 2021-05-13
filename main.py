@@ -31,8 +31,6 @@ if __name__ == "__main__":
         time_now = time.strftime("%H:%M:%S", time.localtime()) # 刷新
         if time_now == "09:30:10" or time_now == "09:30:11":#不知道是奇数还是偶数
             config = read_config()#读取配置文件
-            #抓取知乎，config['get_zhihu_hot'],config['get_zhihu_everyday60s']两项默认为True,在为True的时候可以省略
-            # get_status = zhihu(config['zhihu_cookie'])
             get_status_zhihu = zhihu(config['zhihu_cookie'],config['get_zhihu_hot'],config['get_zhihu_everyday60s'])
             #抓取小黑盒
             get_status_xiaoheihe = xiaoheihe(config['get_xiaoheihe_most_popular'],config['get_xiaoheihe_discount'])

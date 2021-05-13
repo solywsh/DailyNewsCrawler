@@ -62,7 +62,7 @@ def get_zhihu_hot_dict(html,xiaoheihe_most_popular = True,xiaoheihe_discount = T
             #steam最受欢迎
             if xiaoheihe_most_popular == True:
                 count = 1
-                print("抓取steam最受欢迎...")
+                print("抓取steam最受欢迎...\n")
                 for items in content.contents[0].contents[0].find_all('div',class_ = "mask"):
                     for item in items.contents[0].contents:
                         if len(str(item)) < 10: #排除标题
@@ -77,7 +77,7 @@ def get_zhihu_hot_dict(html,xiaoheihe_most_popular = True,xiaoheihe_discount = T
                             "game_score" : game_score,
                             "game_price" : game_price
                         }
-                        print(most_popular_item_dict)
+                        print("{}\n".format(most_popular_item_dict))
                         most_popular_list.append(most_popular_item_dict)
                         count = count + 1
                         time.sleep(1)
@@ -90,7 +90,7 @@ def get_zhihu_hot_dict(html,xiaoheihe_most_popular = True,xiaoheihe_discount = T
 
             #steam打折促销
             if xiaoheihe_discount == True:
-                print("抓取steam促销...")
+                print("抓取steam促销...\n")
                 count = 1
                 for items in content.contents[0].contents[5].find_all('div',class_ = "mask"):
                     for item in items.contents[0].contents:
@@ -106,7 +106,7 @@ def get_zhihu_hot_dict(html,xiaoheihe_most_popular = True,xiaoheihe_discount = T
                             "game_score" : game_score,
                             "game_price" : game_price
                         }
-                        print(most_popular_item_dict)
+                        print("{}\n".format(most_popular_item_dict))
                         discount_list.append(most_popular_item_dict)
                         count = count + 1
                         time.sleep(1)
